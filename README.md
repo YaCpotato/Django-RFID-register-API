@@ -1,2 +1,1 @@
-# Django Grils Tutorial終了
-保存用リポジトリ
+# DjangoでRFIDカードでの色々登録用のAPIを作る
