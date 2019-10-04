@@ -1,0 +1,15 @@
+{% extends 'logsys/base.html' %}
+
+{% block content %}
+    {% for user in users %}
+        {% if user.state %}
+            <div class="login" style="color:red;">
+                {{ user.email }}
+            </div>
+        {% else %}
+            <div class="logout" style="color:blue;">
+                {{ user.email }}
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endblock content %}

@@ -16,11 +16,11 @@ Including another URLconf
 from django.urls import path, include
 from django.contrib import admin
 from django.contrib.auth import views
-from visit.urls import router as visit_router
+#from visit.urls import router as visit_router
 
 urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('', include('logsys.urls')),
     path('admin/', admin.site.urls),
-    path('api/', include(visit_router.urls))
+    #path('api/', include(visit_router.urls))
 ]
