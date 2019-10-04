@@ -78,14 +78,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name = _('user')
         verbose_name_plural = _('users')
 
-    def stateupdate(self,user):
-        if user.login_or_out:
-            user.logout_date = timezone.now()
-            login_or_out = False
-        else:
-            user.login_date = timezone.now()
-            user.login_or_out = True
-    
     def get_full_name(self):
         """Return the first_name plus the last_name, with a space in
         between."""

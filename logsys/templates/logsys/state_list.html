@@ -2,13 +2,15 @@
 
 {% block content %}
     {% for user in users %}
-        {% if user.state %}
+        {% if user.login_or_out %}
             <div class="login" style="color:red;">
                 {{ user.email }}
+                <a href="{% url 'stateupdate' pk=user.pk %}">ログアウト</a>
             </div>
         {% else %}
             <div class="logout" style="color:blue;">
                 {{ user.email }}
+                <a href="{% url 'stateupdate' pk=user.pk %}">ログイン</a>
             </div>
         {% endif %}
     {% endfor %}
