@@ -1,17 +1,51 @@
 {% extends 'logsys/base.html' %}
 
 {% block content %}
-    {% for user in users %}
-        {% if user.login_or_out %}
-            <div class="login" style="color:red;">
-                {{ user.email }}
-                <a href="{% url 'stateupdate' pk=user.pk %}">ログアウト</a>
+            <div class="login container-fluid" style="padding:20px;">
+            <h1>ログイン中</h1>
+                <table class="table table-bordered" style="content-align:center;table-layout:fixed;">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width:200px;">mail</th>
+                            <th scope="col" style="width:200px;">ステートボタン</th>
+                        </tr>
+                    </thead>
+                {% for user in users %}
+                    {% if user.login_or_out %}
+                    <tr>
+                        <td>
+                            {{ user.first_name }} {{ user.last_name }}
+                        </td>
+                        <td>
+                            <a href="{% url 'stateupdate' pk=user.pk %}" style="font-size:30px;"><button type="button" class="btn btn-warning">ログアウトする</button></a>
+                        </td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+                </table>
             </div>
-        {% else %}
-            <div class="logout" style="color:blue;">
-                {{ user.email }}
-                <a href="{% url 'stateupdate' pk=user.pk %}">ログイン</a>
+        
+            <div class="logout container-fluid" style="padding:20px;">
+                <h1>ログアウト中</h1>
+                <table class="table table-bordered" style="content-align:center;table-layout:fixed;">
+                    <thead>
+                        <tr>
+                            <th scope="col">mail</th>
+                            <th scope="col">ステートボタン</th>
+                        </tr>
+                    </thead>
+                    {% for user in users %}
+                        {% if not user.login_or_out %}
+                        <tr>
+                            <td>
+                                {{ user.first_name }} {{ user.last_name }}
+                            </td>
+                            <td>
+                                <a href="{% url 'stateupdate' pk=user.pk %}" style="font-size:30px;"><button type="button" class="btn btn-primary">ログインする</button></a>
+                            </td>
+                        </tr>
+                        {% endif %}
+                {% endfor %}
+                </table>
             </div>
-        {% endif %}
-    {% endfor %}
 {% endblock content %}
