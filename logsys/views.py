@@ -2,7 +2,7 @@
 from django.shortcuts import render, get_object_or_404,redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from .models import User
+from .models import User,ufid,logger
 from django.utils import timezone
 from .slack_post import slack
 import json
@@ -21,22 +21,32 @@ def index(request):
     users = User.objects.all()
     return render(request, 'logsys/state_list.html', {'users': users})
 
+def ufid_scan(tag):
+    uuuu = get_object_or_404(ufid, tag=tag)
+    user = get_object_or_404(User, pk=uuuu.user_id.pk)
+    print(uuuu.tag,user.email)
+
 def stateupdate(request,pk):
+    print('test')
+    ufid_scan(tag='111,111,111,111')
+    print('test end')
     user = get_object_or_404(User, pk=pk)
     
     if user.login_or_out:
         user.login_or_out = False
         slack.notify(text = user.first_name+"がログアウトしました")
         user.logout_date = timezone.now()
-        str = json.dumps(user.logout_date + timezone.timedelta(days=1) - timezone.timedelta(hours=15), default=json_serial)
+        print(user.logout_date)
+        str = json.dumps(timezone.now() + timezone.timedelta(days=1) - timezone.timedelta(hours=15), default=json_serial)
         slack.notify(text = str)
     else:
         user.login_or_out = True
         slack.notify(text = user.first_name+"がログインしました")
         user.login_date = timezone.now()
-        str = json.dumps(user.logout_date + timezone.timedelta(days=1) - timezone.timedelta(hours=15), default=json_serial)
+        print(user.login_date)
+        str = json.dumps(timezone.now() + timezone.timedelta(days=1) - timezone.timedelta(hours=15), default=json_serial)
         slack.notify(text = str)
     user.save()
     users = User.objects.all()
-    return render(request, 'logsys/state_list.html', {'users': users})
+    return render(request,'logsys/state_list.html', {'users': users})
 

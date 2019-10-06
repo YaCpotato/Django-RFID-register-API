@@ -100,3 +100,12 @@ class User(AbstractBaseUser, PermissionsMixin):
         メールアドレスを返す
         """
         return self.email
+
+class ufid(models.Model):
+    user_id = models.ForeignKey('User', related_name='user_id', on_delete=models.CASCADE)
+    tag = models.CharField(max_length=100,blank=True)
+
+class logger(models.Model):
+    user_id = models.ForeignKey('User', related_name='ufid_userid', on_delete=models.CASCADE)
+    login_date = models.DateTimeField(blank=True, null=True)
+    logout_date = models.DateTimeField(blank=True, null=True)
