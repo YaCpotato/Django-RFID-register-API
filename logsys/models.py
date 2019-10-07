@@ -109,3 +109,13 @@ class logger(models.Model):
     user_id = models.ForeignKey('User', related_name='ufid_userid', on_delete=models.CASCADE)
     login_date = models.DateTimeField(blank=True, null=True)
     logout_date = models.DateTimeField(blank=True, null=True)
+    minute = models.IntegerField(null=True)
+    hour = models.IntegerField(null=True)
+
+    def set_minute(self):
+        self.minute = ((datetime(logout_date) - datetime(login_date)).seconds) /60
+        self.save()
+    
+    def set_hour(self):
+        self.hour = self.minute / 60
+        self.save()

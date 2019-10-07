@@ -36,14 +36,19 @@ def stateupdate(request,pk):
         user.login_or_out = False
         slack.notify(text = user.first_name+"がログアウトしました")
         user.logout_date = timezone.now()
-        print(user.logout_date)
+        log = logger()
+        log.user_id = user
+        log.login_date = user.login_date
+        log.logout_date = user.logout_date
+        log.set_minute()
+        log.set_hour()
+        log.save()
         str = json.dumps(timezone.now() + timezone.timedelta(days=1) - timezone.timedelta(hours=15), default=json_serial)
         slack.notify(text = str)
     else:
         user.login_or_out = True
         slack.notify(text = user.first_name+"がログインしました")
         user.login_date = timezone.now()
-        print(user.login_date)
         str = json.dumps(timezone.now() + timezone.timedelta(days=1) - timezone.timedelta(hours=15), default=json_serial)
         slack.notify(text = str)
     user.save()
